@@ -10,6 +10,8 @@
 			<div>
 				<strong>Nombre de la empresa:</strong> {{ user.company.name }}
 			</div>
+			<Albums :userId="userId" />
+			<Todos :userId="userId" />
 		</div>
 		<div v-else>
 			<p>Cargando detalles del usuario...</p>
@@ -21,13 +23,15 @@
 	import { ref, onMounted } from "vue";
 	import { useRoute } from "vue-router";
 	import axios from "axios";
+	import Todos from "../components/Todos.vue"; // Ajusta la ruta según la ubicación real del componente
+	import Albums from "../components/Albums.vue"; // Ajusta la ruta según la ubicación real del componente
 
-	const user = ref(null);
 	const route = useRoute();
+	const user = ref(null);
+	const userId = route.params.userId;
 
 	const fetchUserDetails = async () => {
 		try {
-			const userId = route.params.userId;
 			const response = await axios.get(
 				`https://jsonplaceholder.typicode.com/users/${userId}`
 			);
